@@ -19,11 +19,11 @@ void MainWindow::initializeGL()
 void MainWindow::paintGL()
 {
     long start = clock();
-    int t[300][2] ={0};
-    for(int i=0;i<300;i++){
-        t[i][0] = (rand())/(RAND_MAX+0.0)*10-7;
+    int t[1000][2] ={0};
+    for(int i=0;i<1000;i++){
+        t[i][0] = (rand())/(RAND_MAX+0.0)*10-5;
     }
-    Staffta a(t,300);
+    Staffta a(t,1000);
     a.height = this->height();
     a.width = this->width();
     int n = 0;
