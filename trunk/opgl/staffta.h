@@ -3,7 +3,6 @@
 
 #include "graph.h"
 #include <stdio.h>
-#include <list>
 class Staffta {
 public:
 	Staffta(int (*notes)[2], int _noteLenth);
