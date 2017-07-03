@@ -22,7 +22,7 @@ public:
 	//底部间距
 	float liney_jl = 20;
 	//音符距离
-    float yf_jl = 50;
+    float yf_jl = 30;
 public:
 	/**
 	 *获取五线坐标

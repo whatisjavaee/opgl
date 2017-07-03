@@ -39,7 +39,7 @@ DrawObject* Staffta::getYfLines(int &n) {
 	//五线谱行数
 	int wxlines = (int) ((height - liney_jl) / (linejl * 4 + linezjl));
 	//每行音符数量
-	int yflineNum = (int) width / yf_jl;
+    int yflineNum = (int) (width - linex_jl*2)/ yf_jl;
 	//音符总数
 	int yfNum = wxlines * yflineNum;
 	//取最大
