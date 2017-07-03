@@ -32,6 +32,7 @@ void MainWindow::paintGL()
     DrawObject vertices[n+1];
     memcpy(vertices,&drawObject,sizeof(DrawObject));
     memcpy(&vertices[1],s,n*sizeof(DrawObject));
+    delete[] s;
     int sum = 0 ;
     for(int i=0;i<n;i++){
         sum += vertices[i].n;
