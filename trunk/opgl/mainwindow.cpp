@@ -26,14 +26,10 @@ void MainWindow::paintGL()
     Staffta a(t,1000);
     a.height = this->height();
     a.width = this->width();
-    int n = 0;
-    DrawObject*  s = a.getYfLines(n);
-    DrawObject drawObject =  a.getFiveiLines();
-    DrawObject vertices[n+1];
-    memcpy(vertices,&drawObject,sizeof(DrawObject));
-    memcpy(&vertices[1],s,n*sizeof(DrawObject));
-    delete[] s;
+    vector<DrawObject>  vertices = a.getYfLines();
+    vertices.push_back(a.getFiveiLines());
     int sum = 0 ;
+    int n= vertices.size();
     for(int i=0;i<n;i++){
         sum += vertices[i].n;
     }

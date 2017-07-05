@@ -3,6 +3,8 @@
 
 #include "graph.h"
 #include <stdio.h>
+#include <vector>
+using namespace std;
 class Staffta {
 public:
 	Staffta(int (*notes)[2], int _noteLenth);
@@ -27,7 +29,7 @@ public:
 	 *获取五线坐标
 	 */
     DrawObject getFiveiLines();
-    DrawObject* getYfLines(int &n);
+    vector<DrawObject> getYfLines();
 	void getYfXY(int index, float &x, float &y);
 };
 
