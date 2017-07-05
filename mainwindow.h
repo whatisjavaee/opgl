@@ -18,6 +18,7 @@ public:
     ~MainWindow();
     void initializeGL();
     void paintGL();
+    void paintGL(vector<DrawObject> drawObjects);
 private :
     GLuint vboId;
 };

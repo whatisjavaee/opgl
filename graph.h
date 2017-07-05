@@ -1,5 +1,7 @@
 #ifndef GRAPH_H
 #define GRAPH_H
+#include<vector>
+using namespace std;
 struct Point {
 	float x;
 	float y;
@@ -7,7 +9,7 @@ struct Point {
 struct DrawObject{
     unsigned int type;
     int n;
-    Point *point;
+    Point* point;
 };
 Point* drawCircle(float x, float y, float R, int n);
 void printPoint(Point* p, int n);

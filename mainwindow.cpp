@@ -14,20 +14,12 @@ void MainWindow::initializeGL()
     glLineWidth(1);
     glTranslatef(-1,1,0.0);
 }
-
-
-void MainWindow::paintGL()
-{
+/**
+ * @brief MainWindow::paintGL
+ * @param vertices
+ */
+void MainWindow::paintGL(vector<DrawObject> vertices){
     long start = clock();
-    int t[1000][2] ={0};
-    for(int i=0;i<1000;i++){
-        t[i][0] = (rand())/(RAND_MAX+0.0)*10-5;
-    }
-    Staffta a(t,1000);
-    a.height = this->height();
-    a.width = this->width();
-    vector<DrawObject>  vertices = a.getYfLines();
-    vertices.push_back(a.getFiveiLines());
     int sum = 0 ;
     int n= vertices.size();
     for(int i=0;i<n;i++){
@@ -40,7 +32,7 @@ void MainWindow::paintGL()
         index+=vertices[i].n;
         delete[] vertices[i].point;
     }
-    coverPoint2Opgl(point,sum,2.0/a.width,2.0/a.height);
+    coverPoint2Opgl(point,sum,2.0/this->width(),2.0/this->height());
     glClear(GL_COLOR_BUFFER_BIT);
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
     glBufferData(GL_ARRAY_BUFFER,sum*sizeof(Point),point,GL_STATIC_DRAW);
@@ -54,4 +46,18 @@ void MainWindow::paintGL()
     glDisableClientState(GL_VERTEX_ARRAY);
     glBindBuffer(GL_ARRAY_BUFFER,0);
     std::cout<<clock() - start<<std::endl;
+}
+
+void MainWindow::paintGL()
+{
+    int t[1000][2] ={0};
+    for(int i=0;i<1000;i++){
+        t[i][0] = (rand())/(RAND_MAX+0.0)*10-5;
+    }
+    Staffta a(t,1000);
+    a.height = this->height();
+    a.width = this->width();
+    vector<DrawObject>  vertices = a.getYfLines();
+    vertices.push_back(a.getFiveiLines());
+    this->paintGL(vertices);
 }
