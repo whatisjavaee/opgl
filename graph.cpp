@@ -10,7 +10,6 @@
 #include <math.h>
 #include <iostream>
 
-#define M_PI		3.14159265358979323846
 Point* drawCircle(float x, float y, float R, int n) {
 	Point* lines = new Point[n];
 	for (int i = 0; i < n; i++) {
