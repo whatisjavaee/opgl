@@ -3,13 +3,18 @@
 #include <Math.h>
 #include <string.h>
 #include <GL/gl.h>
-Staffta::Staffta(int (*_notes)[2], int _noteLenth) {
+Staffta::Staffta(int (*_notes)[2], int _noteLenth,int _width,int _height) {
     this->notesLenth = _noteLenth;
     this->notes = new int[_noteLenth][2];
     memcpy(notes, _notes, _noteLenth * 2 * sizeof(int));
+    yfPoint = new Point[_noteLenth];
+    this->width=_width;
+    this->height=_height;
+    initYfPoint();
 }
 Staffta::~Staffta() {
     delete notes;
+    delete yfPoint;
 }
 /**
  * @brief Staffta::getFiveiLines
@@ -33,44 +38,65 @@ DrawObject Staffta::getFiveiLines() {
     t.n =n;
     t.point = vertices;
     t.type = GL_LINES;
+    t.colorFlag = false;
     return t;
 }
 vector<DrawObject> Staffta::getYfLines() {
+    vector<DrawObject> drawObject(yfNum+1);
+    for (int i = 0; i < yfNum; i++) {
+        DrawObject  objDrawObject;
+        objDrawObject.n = N;
+        objDrawObject.point=drawCircle(yfPoint[i].x, yfPoint[i].y, (linejl / 2), N);
+        objDrawObject.type = GL_POLYGON;
+        drawObject.push_back(objDrawObject);
+    }
+    if(drawObject.size() > 0){
+        drawObject[0].colorFlag = true;
+    }
+    return drawObject;
+}
+
+DrawObject Staffta::getYfLines(int n) {
+    DrawObject  objDrawObject;
+    objDrawObject.n = N;
+    objDrawObject.point=drawCircle(yfPoint[n].x, yfPoint[n].y, (linejl / 2), N);
+    objDrawObject.type = GL_POLYGON;
+    objDrawObject.colorFlag = true;
+    objDrawObject.color[0] = 1;
+    return objDrawObject;
+}
+
+void Staffta::initYfPoint(){
     //五线谱行数
     int wxlines = (int) ((height - liney_jl) / (linejl * 4 + linezjl));
     //每行音符数量
     int yflineNum = (int) (width - linex_jl*2)/ yf_jl;
+    cout<<yflineNum<<endl;
     //音符总数
-    int yfNum = wxlines * yflineNum;
+    yfNum = wxlines * yflineNum;
     //取最大
     if (notesLenth < yfNum) {
         yfNum = notesLenth;
     }
-    vector<DrawObject> drawObject(yfNum+1);
-    for (int i = 0; i < yfNum; i++) {
-        float x, y = 0;
-        getYfXY(i, x, y);
-        DrawObject  objDrawObject;
-        objDrawObject.n = 20;
-        objDrawObject.point=drawCircle(x, y, (linejl / 2), 20);
-        objDrawObject.type = GL_POLYGON;
-        drawObject.push_back(objDrawObject);
+    for(int index=0;index<notesLenth;index++){
+        int yf_y_line = index / yflineNum;
+        int yf_x_line = index % yflineNum;
+        // 音符正中间位置
+        yfPoint[index].x = yf_x_line * yf_jl + linex_jl + yf_jl / 2;
+        //音符第一根线位置
+        yfPoint[index].y = yf_y_line * (linezjl + linejl * 4) + liney_jl - (notes[index][0]-4)*linejl/2;
     }
-    return drawObject;
 }
-/**
- * @brief Staffta::getYfXY
- * @param index
- * @param x 音符正中旬位置
- * @param y 音符第一根线位置
- */
-void Staffta::getYfXY(int index, float &x, float &y) {
-    //每行音符数量
-    int yflineNum = (int) (width - linex_jl*2)/ yf_jl;
-    int yf_y_line = index / yflineNum;
-    int yf_x_line = index % yflineNum;
-    // 音符正中间位置
-    x = yf_x_line * yf_jl + linex_jl + yf_jl / 2;
-    //音符第一根线位置
-    y = yf_y_line * (linezjl + linejl * 4) + liney_jl - (notes[index][0]-4)*linejl/2;
+vector<DrawObject> Staffta::getAllDrawObject(){
+    vector<DrawObject> yf =  this->getYfLines();
+    yf.push_back(this->getFiveiLines());
+    return yf;
+}
+void Staffta::resize(int _width,int _height){
+    if(this->width == _width &&this->height == _height){
+        return;
+    }
+    this->width=_width;
+    this->height=_height;
+    this->initYfPoint();
 }

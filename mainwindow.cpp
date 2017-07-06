@@ -1,27 +1,43 @@
 #include "mainwindow.h"
-const float PI = 3.1415926535898;
-MainWindow::~MainWindow()
+MainWindow::MainWindow()
 {
 
+}
+MainWindow::~MainWindow()
+{
+    delete staffta;
 }
 
 void MainWindow::initializeGL()
 {
+    int const length = 1000;
+    int t[length][2] ={0};
+    for(int i=0;i<length;i++){
+        t[i][0] = (rand())/(RAND_MAX+0.0)*10-5;
+    }
+    staffta = new Staffta(t,length,width(),height());
     initializeOpenGLFunctions();
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
     glGenBuffers(1,&vboId);
     glColor4f(0.0,0.0,0.0,0.0);
+    glClear(GL_COLOR_BUFFER_BIT);
     glLineWidth(1);
     glTranslatef(-1,1,0.0);
+    glEnable(GL_POLYGON_SMOOTH);
+    QTimer *timer = new QTimer( this );
+    connect( timer, SIGNAL(timeout()), this, SLOT(rePaintYf()) );
+    timer->start(1000); //
 }
 /**
  * @brief MainWindow::paintGL
  * @param vertices
  */
 void MainWindow::paintGL(vector<DrawObject> vertices){
-    long start = clock();
     int sum = 0 ;
     int n= vertices.size();
+    if(n == 0){
+        return;
+    }
     for(int i=0;i<n;i++){
         sum += vertices[i].n;
     }
@@ -33,31 +49,40 @@ void MainWindow::paintGL(vector<DrawObject> vertices){
         delete[] vertices[i].point;
     }
     coverPoint2Opgl(point,sum,2.0/this->width(),2.0/this->height());
-    glClear(GL_COLOR_BUFFER_BIT);
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
     glBufferData(GL_ARRAY_BUFFER,sum*sizeof(Point),point,GL_STATIC_DRAW);
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(2, GL_FLOAT, 0, 0);
     index = 0;
     for(int i=0;i<n;i++){
+        if(vertices[i].colorFlag == true){
+            glColor4f(vertices[i].color[0],vertices[i].color[1],vertices[i].color[2],0);
+        }
         glDrawArrays(vertices[i].type, index, vertices[i].n);
         index+= vertices[i].n;
     }
     glDisableClientState(GL_VERTEX_ARRAY);
     glBindBuffer(GL_ARRAY_BUFFER,0);
-    std::cout<<clock() - start<<std::endl;
+}
+
+void MainWindow::rePaintYf(){
+    DrawObject objDrawObject = staffta->getYfLines(redYf%staffta->yfNum);
+    redYf++;
+    reDrawObjects.push_back(objDrawObject);
+    update();
 }
 
 void MainWindow::paintGL()
 {
-    int t[1000][2] ={0};
-    for(int i=0;i<1000;i++){
-        t[i][0] = (rand())/(RAND_MAX+0.0)*10-5;
-    }
-    Staffta a(t,1000);
-    a.height = this->height();
-    a.width = this->width();
-    vector<DrawObject>  vertices = a.getYfLines();
-    vertices.push_back(a.getFiveiLines());
+    glClear(GL_COLOR_BUFFER_BIT);
+    vector<DrawObject>  vertices = staffta->getAllDrawObject();
     this->paintGL(vertices);
+    if(reDrawObjects.size() > 0){
+        this->paintGL(reDrawObjects);
+        reDrawObjects.clear();
+    }
+}
+void MainWindow::resizeGL(int w, int h)
+{
+    staffta->resize(w,h);
 }
