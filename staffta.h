@@ -34,15 +34,16 @@ public:
     //最大音符数量(音符总数和可绘制音符的最小值)
     unsigned int yfNum = 0;
 public:
-	/**
-	 *获取五线坐标
-	 */
-    DrawObject getFiveiLines();
-    vector<DrawObject> getYfLines();
-    void initYfPoint();
     DrawObject getYfLines(int n);
     void resize(int _width,int _height);
     vector<DrawObject> getAllDrawObject();
+
+private:
+    vector<DrawObject> allDrawObject;
+    void initAllDrawObject();
+    void initYfPoint();
+    vector<DrawObject> getYfLines();
+    DrawObject getFiveiLines();
 };
 
 #endif // STAFFTA_H

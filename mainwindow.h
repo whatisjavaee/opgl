@@ -30,6 +30,7 @@ private :
     Staffta* staffta;
     vector<DrawObject> reDrawObjects;
     int flag =0;
+    long refreshTime = 0;
 private slots:
     void rePaintYf();
 };

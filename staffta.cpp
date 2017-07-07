@@ -10,6 +10,7 @@ Staffta::Staffta(Note* _notes, int _noteLenth,int _width,int _height) {
     this->width=_width;
     this->height=_height;
     initYfPoint();
+    initAllDrawObject();
 }
 Staffta::~Staffta() {
     delete yfPoint;
@@ -39,6 +40,7 @@ DrawObject Staffta::getFiveiLines() {
     t.colorFlag = false;
     return t;
 }
+
 vector<DrawObject> Staffta::getYfLines() {
     vector<DrawObject> drawObject(yfNum+1);
     for (unsigned i = 0; i < yfNum; i++) {
@@ -84,16 +86,28 @@ void Staffta::initYfPoint(){
         yfPoint[index].y = yf_y_line * (linezjl + linejl * 4) + liney_jl - (notes[index].yinDiao-4)*linejl/2;
     }
 }
+
+void Staffta::initAllDrawObject(){
+    int size = allDrawObject.size();
+    for(int i=0;i<size;i++){
+        delete[] allDrawObject[i].point;
+    }
+    allDrawObject.clear();
+    vector<DrawObject> drawObjects = getYfLines();
+    allDrawObject.reserve(drawObjects.size());
+    allDrawObject.assign(&drawObjects[0],&drawObjects[drawObjects.size()]);
+    allDrawObject.push_back(this->getFiveiLines());
+}
+
 vector<DrawObject> Staffta::getAllDrawObject(){
-    vector<DrawObject> yf =  this->getYfLines();
-    yf.push_back(this->getFiveiLines());
-    return yf;
+    return allDrawObject;
 }
 void Staffta::resize(int _width,int _height){
     if(this->width == _width &&this->height == _height){
         return;
     }
-    this->width=_width;
-    this->height=_height;
-    this->initYfPoint();
+    width=_width;
+    height=_height;
+    initYfPoint();
+    initAllDrawObject();
 }
