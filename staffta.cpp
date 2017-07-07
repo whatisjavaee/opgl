@@ -4,16 +4,14 @@
 #include <string.h>
 #include <GL/gl.h>
 Staffta::Staffta(Note* _notes, int _noteLenth,int _width,int _height) {
-    this->notesLenth = _noteLenth;
-    this->notes = new Note[_noteLenth];
-    memcpy(notes, _notes, _noteLenth * sizeof(Note));
+    notes.reserve(_noteLenth);
+    notes.assign(_notes,&_notes[_noteLenth]);
     yfPoint = new Point[_noteLenth];
     this->width=_width;
     this->height=_height;
     initYfPoint();
 }
 Staffta::~Staffta() {
-    delete notes;
     delete yfPoint;
 }
 /**
@@ -43,7 +41,7 @@ DrawObject Staffta::getFiveiLines() {
 }
 vector<DrawObject> Staffta::getYfLines() {
     vector<DrawObject> drawObject(yfNum+1);
-    for (int i = 0; i < yfNum; i++) {
+    for (unsigned i = 0; i < yfNum; i++) {
         DrawObject  objDrawObject;
         objDrawObject.n = N;
         objDrawObject.point=drawCircle(yfPoint[i].x, yfPoint[i].y, (linejl / 2), N);
@@ -74,10 +72,10 @@ void Staffta::initYfPoint(){
     //音符总数
     yfNum = wxlines * yflineNum;
     //取最大
-    if (notesLenth < yfNum) {
-        yfNum = notesLenth;
+    if (notes.size() < yfNum) {
+        yfNum = notes.size();
     }
-    for(int index=0;index<notesLenth;index++){
+    for(unsigned index=0;index<yfNum;index++){
         int yf_y_line = index / yflineNum;
         int yf_x_line = index % yflineNum;
         // 音符正中间位置
