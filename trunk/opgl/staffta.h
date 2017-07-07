@@ -16,8 +16,7 @@ public:
     Staffta(Note* _notes, int _noteLenth,int _width,int _height);
 	~Staffta();
 	Staffta();
-    Note* notes = NULL;
-	int notesLenth;
+    vector<Note> notes;
 	int height = 800;
 	int width = 800;
 	//线间距
@@ -33,7 +32,7 @@ public:
     //音符坐标
     Point* yfPoint;
     //最大音符数量(音符总数和可绘制音符的最小值)
-    int yfNum = 0;
+    unsigned int yfNum = 0;
 public:
 	/**
 	 *获取五线坐标
