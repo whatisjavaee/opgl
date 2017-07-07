@@ -26,7 +26,7 @@ void MainWindow::initializeGL()
     glEnable(GL_POLYGON_SMOOTH);
     QTimer *timer = new QTimer( this );
     connect( timer, SIGNAL(timeout()), this, SLOT(rePaintYf()) );
-    timer->start(1000); //
+    timer->start(5); //
 }
 /**
  * @brief MainWindow::paintGL
@@ -46,7 +46,6 @@ void MainWindow::paintGL(vector<DrawObject> vertices){
     for(int i=0;i<n;i++){
         memcpy(&point[index],vertices[i].point,vertices[i].n*sizeof(Point));
         index+=vertices[i].n;
-        delete[] vertices[i].point;
     }
     coverPoint2Opgl(point,sum,2.0/this->width(),2.0/this->height());
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
@@ -66,6 +65,11 @@ void MainWindow::paintGL(vector<DrawObject> vertices){
 }
 
 void MainWindow::rePaintYf(){
+    long time = clock();
+    if(time - refreshTime <(1.0/60)){
+        return;
+    }
+    refreshTime = time;
     DrawObject objDrawObject = staffta->getYfLines(redYf%staffta->yfNum);
     redYf++;
     reDrawObjects.push_back(objDrawObject);
