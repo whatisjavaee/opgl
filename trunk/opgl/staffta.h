@@ -9,15 +9,14 @@
 using namespace std;
 struct Note{
     int yinDiao = 0;
-    Point point;
-    float timeLenght = 0;
+    float timeLenght = 1;
 };
 class Staffta {
 public:
-    Staffta(int (*_notes)[2], int _noteLenth,int _width,int _height);
+    Staffta(Note* _notes, int _noteLenth,int _width,int _height);
 	~Staffta();
 	Staffta();
-	int (*notes)[2] = NULL;
+    Note* notes = NULL;
 	int notesLenth;
 	int height = 800;
 	int width = 800;

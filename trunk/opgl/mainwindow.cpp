@@ -11,9 +11,9 @@ MainWindow::~MainWindow()
 void MainWindow::initializeGL()
 {
     int const length = 1000;
-    int t[length][2] ={0};
+    Note t[length];;
     for(int i=0;i<length;i++){
-        t[i][0] = (rand())/(RAND_MAX+0.0)*10-5;
+        t[i].yinDiao = (rand())/(RAND_MAX+0.0)*10-5;
     }
     staffta = new Staffta(t,length,width(),height());
     initializeOpenGLFunctions();
