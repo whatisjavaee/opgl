@@ -3,10 +3,10 @@
 #include <Math.h>
 #include <string.h>
 #include <GL/gl.h>
-Staffta::Staffta(int (*_notes)[2], int _noteLenth,int _width,int _height) {
+Staffta::Staffta(Note* _notes, int _noteLenth,int _width,int _height) {
     this->notesLenth = _noteLenth;
-    this->notes = new int[_noteLenth][2];
-    memcpy(notes, _notes, _noteLenth * 2 * sizeof(int));
+    this->notes = new Note[_noteLenth];
+    memcpy(notes, _notes, _noteLenth * sizeof(Note));
     yfPoint = new Point[_noteLenth];
     this->width=_width;
     this->height=_height;
@@ -71,7 +71,6 @@ void Staffta::initYfPoint(){
     int wxlines = (int) ((height - liney_jl) / (linejl * 4 + linezjl));
     //每行音符数量
     int yflineNum = (int) (width - linex_jl*2)/ yf_jl;
-    cout<<yflineNum<<endl;
     //音符总数
     yfNum = wxlines * yflineNum;
     //取最大
@@ -84,7 +83,7 @@ void Staffta::initYfPoint(){
         // 音符正中间位置
         yfPoint[index].x = yf_x_line * yf_jl + linex_jl + yf_jl / 2;
         //音符第一根线位置
-        yfPoint[index].y = yf_y_line * (linezjl + linejl * 4) + liney_jl - (notes[index][0]-4)*linejl/2;
+        yfPoint[index].y = yf_y_line * (linezjl + linejl * 4) + liney_jl - (notes[index].yinDiao-4)*linejl/2;
     }
 }
 vector<DrawObject> Staffta::getAllDrawObject(){

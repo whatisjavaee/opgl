@@ -4,8 +4,8 @@
 using namespace std;
 const int N = 20;
 struct Point {
-	float x;
-	float y;
+    float x;
+    float y;
 };
 struct DrawObject{
     unsigned int type;
