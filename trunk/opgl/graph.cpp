@@ -15,8 +15,8 @@ Point* drawCircle(float x, float y, float R, int n) {
 	for (int i = 0; i < n; i++) {
         lines[i].x = (R * cos(2 * M_PI / n * i) + x);
 		lines[i].y = R * sin(2 * M_PI / n * i) + y;
-	}
-	return lines;
+    }
+    return lines;
 }
 void printPoint(Point* p, int n) {
 	std::cout << "point:" << n << std::endl;
