@@ -3,6 +3,7 @@
 #include <Math.h>
 #include <string.h>
 #include <GL/gl.h>
+
 Staffta::Staffta(Note* _notes, int _noteLenth,int _width,int _height) {
     notes.reserve(_noteLenth);
     notes.assign(_notes,&_notes[_noteLenth]);
@@ -12,14 +13,16 @@ Staffta::Staffta(Note* _notes, int _noteLenth,int _width,int _height) {
     initYfPoint();
     initAllDrawObject();
 }
+
 Staffta::~Staffta() {
     delete yfPoint;
+    int size =allDrawObject.size();
+    for(int i=0;i<size;i++){
+        delete[] allDrawObject[i].point;
+    }
+
 }
-/**
- * @brief Staffta::getFiveiLines
- * @param n 坐标数量
- * @return 返回N个坐标数量，数组大小为n*2
- */
+
 DrawObject Staffta::getFiveiLines() {
     DrawObject t;
     int n = (int) ((height - liney_jl) / (linejl * 4 + linezjl));
@@ -102,6 +105,7 @@ void Staffta::initAllDrawObject(){
 vector<DrawObject> Staffta::getAllDrawObject(){
     return allDrawObject;
 }
+
 void Staffta::resize(int _width,int _height){
     if(this->width == _width &&this->height == _height){
         return;

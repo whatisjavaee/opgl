@@ -9,8 +9,8 @@ struct Point {
 };
 struct DrawObject{
     unsigned int type;
-    int n;
-    Point* point;
+    int n = 0;
+    Point* point = 0;
     float color[3]={0};
     bool colorFlag = false;
 };
