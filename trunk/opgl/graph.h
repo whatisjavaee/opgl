@@ -9,12 +9,10 @@ struct Point {
 };
 struct DrawObject{
     unsigned int type;
-    int n = 0;
-    Point* point = 0;
+    vector<Point> point;
     float color[3]={0};
     bool colorFlag = false;
 };
-Point* drawCircle(float x, float y, float R, int n);
-void printPoint(Point* p, int n);
+vector<Point> drawCircle(float x, float y, float R, int n);
 void coverPoint2Opgl(Point* p, int n, float x, float y);
 #endif // GRAPH_H

@@ -16,28 +16,21 @@ Staffta::Staffta(Note* _notes, int _noteLenth,int _width,int _height) {
 
 Staffta::~Staffta() {
     delete yfPoint;
-    int size =allDrawObject.size();
-    for(int i=0;i<size;i++){
-        delete[] allDrawObject[i].point;
-    }
-
 }
 
 DrawObject Staffta::getFiveiLines() {
     DrawObject t;
     int n = (int) ((height - liney_jl) / (linejl * 4 + linezjl));
-    Point* vertices = new Point[n * 5 * 2];
+    vector<Point> vertices(n * 5 * 2);
     for (int j = 0; j < n; j++) {
         for (int i = 0; i < 5; i++) {
             float lineY = linejl * i + (linejl * 4 + linezjl) * j + liney_jl;
-            vertices[j * 10 + i * 2].x = linex_jl;
-            vertices[j * 10 + i * 2].y = lineY;
-            vertices[j * 10 + i * 2 + 1].x = this->width - linex_jl;
-            vertices[j * 10 + i * 2 + 1].y = lineY;
+            vertices[j*10+i*2].x = linex_jl;
+            vertices[j*10+i*2].y = lineY;
+            vertices[j*10+i*2+1].x = this->width - linex_jl;
+            vertices[j*10+i*2+1].y = lineY;
         }
     }
-    n = n * 5 * 2;
-    t.n =n;
     t.point = vertices;
     t.type = GL_LINES;
     t.colorFlag = false;
@@ -47,11 +40,8 @@ DrawObject Staffta::getFiveiLines() {
 vector<DrawObject> Staffta::getYfLines() {
     vector<DrawObject> drawObject(yfNum+1);
     for (unsigned i = 0; i < yfNum; i++) {
-        DrawObject  objDrawObject;
-        objDrawObject.n = N;
-        objDrawObject.point=drawCircle(yfPoint[i].x, yfPoint[i].y, (linejl / 2), N);
-        objDrawObject.type = GL_POLYGON;
-        drawObject.push_back(objDrawObject);
+        drawObject[i].point=drawCircle(yfPoint[i].x, yfPoint[i].y, (linejl / 2), N);
+        drawObject[i].type = GL_POLYGON;
     }
     if(drawObject.size() > 0){
         drawObject[0].colorFlag = true;
@@ -61,7 +51,6 @@ vector<DrawObject> Staffta::getYfLines() {
 
 DrawObject Staffta::getYfLines(int n) {
     DrawObject  objDrawObject;
-    objDrawObject.n = N;
     objDrawObject.point=drawCircle(yfPoint[n].x, yfPoint[n].y, (linejl / 2), N);
     objDrawObject.type = GL_POLYGON;
     objDrawObject.colorFlag = true;
@@ -91,14 +80,7 @@ void Staffta::initYfPoint(){
 }
 
 void Staffta::initAllDrawObject(){
-    int size = allDrawObject.size();
-    for(int i=0;i<size;i++){
-        delete[] allDrawObject[i].point;
-    }
-    allDrawObject.clear();
-    vector<DrawObject> drawObjects = getYfLines();
-    allDrawObject.reserve(drawObjects.size());
-    allDrawObject.assign(&drawObjects[0],&drawObjects[drawObjects.size()]);
+    allDrawObject = getYfLines();
     allDrawObject.push_back(this->getFiveiLines());
 }
 

@@ -26,7 +26,7 @@ void MainWindow::initializeGL()
     glEnable(GL_POLYGON_SMOOTH);
     QTimer *timer = new QTimer( this );
     connect( timer, SIGNAL(timeout()), this, SLOT(rePaintYf()) );
-    timer->start(5); //
+    timer->start(1); //
 }
 /**
  * @brief MainWindow::paintGL
@@ -39,13 +39,13 @@ void MainWindow::paintGL(vector<DrawObject> vertices){
         return;
     }
     for(int i=0;i<n;i++){
-        sum += vertices[i].n;
+        sum += vertices[i].point.size();
     }
     Point point[sum];
     int index = 0;
     for(int i=0;i<n;i++){
-        memcpy(&point[index],vertices[i].point,vertices[i].n*sizeof(Point));
-        index+=vertices[i].n;
+        memcpy(&point[index],&vertices[i].point[0],vertices[i].point.size()*sizeof(Point));
+        index+=vertices[i].point.size();
     }
     coverPoint2Opgl(point,sum,2.0/this->width(),2.0/this->height());
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
@@ -57,8 +57,8 @@ void MainWindow::paintGL(vector<DrawObject> vertices){
         if(vertices[i].colorFlag == true){
             glColor4f(vertices[i].color[0],vertices[i].color[1],vertices[i].color[2],0);
         }
-        glDrawArrays(vertices[i].type, index, vertices[i].n);
-        index+= vertices[i].n;
+        glDrawArrays(vertices[i].type, index, vertices[i].point.size());
+        index+= vertices[i].point.size();
     }
     glDisableClientState(GL_VERTEX_ARRAY);
     glBindBuffer(GL_ARRAY_BUFFER,0);
@@ -66,7 +66,7 @@ void MainWindow::paintGL(vector<DrawObject> vertices){
 
 void MainWindow::rePaintYf(){
     long time = clock();
-    if(time - refreshTime <(1.0/60)){
+    if(time - refreshTime <(1000.0/60)){
         return;
     }
     refreshTime = time;
