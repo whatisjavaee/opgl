@@ -84,8 +84,8 @@ void Staffta::initAllDrawObject(){
     allDrawObject.push_back(this->getFiveiLines());
 }
 
-vector<DrawObject> Staffta::getAllDrawObject(){
-    return allDrawObject;
+vector<DrawObject>* Staffta::getAllDrawObject(){
+    return &allDrawObject;
 }
 
 void Staffta::resize(int _width,int _height){

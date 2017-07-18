@@ -28,11 +28,8 @@ void MainWindow::initializeGL()
     connect( timer, SIGNAL(timeout()), this, SLOT(rePaintYf()) );
     timer->start(1); //
 }
-/**
- * @brief MainWindow::paintGL
- * @param vertices
- */
-void MainWindow::paintGL(vector<DrawObject> vertices){
+
+void MainWindow::paintGL(vector<DrawObject> &vertices){
     int sum = 0 ;
     int n= vertices.size();
     if(n == 0){
@@ -79,13 +76,14 @@ void MainWindow::rePaintYf(){
 void MainWindow::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT);
-    vector<DrawObject>  vertices = staffta->getAllDrawObject();
-    this->paintGL(vertices);
+    vector<DrawObject>*  vertices = staffta->getAllDrawObject();
+    this->paintGL(*vertices);
     if(reDrawObjects.size() > 0){
         this->paintGL(reDrawObjects);
         reDrawObjects.clear();
     }
 }
+
 void MainWindow::resizeGL(int w, int h)
 {
     staffta->resize(w,h);
