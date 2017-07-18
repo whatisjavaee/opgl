@@ -21,7 +21,7 @@ public:
     MainWindow();
     void initializeGL();
     void paintGL();
-    void paintGL(vector<DrawObject> drawObjects);
+    void paintGL(vector<DrawObject> &drawObjects);
     void resizeGL(int w, int h);
 
 private :

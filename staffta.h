@@ -38,7 +38,7 @@ public:
      * @brief 获取所有绘制线条
      * @return
      */
-    vector<DrawObject> getAllDrawObject();
+    vector<DrawObject>* getAllDrawObject();
 private:
     QTime* time;
     /** 缓冲所有绘制线条 */
