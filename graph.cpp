@@ -1,15 +1,9 @@
-/*
- * graph.cpp
- *
- *  Created on: 2017Äê7ÔÂ1ÈÕ
- *      Author: tangxuegui
- */
-
 #include "graph.h"
 
 #include <math.h>
 #include <iostream>
 #include <vector>
+
 vector<Point> drawCircle(float x, float y, float R, int n) {
     vector<Point> lines(n);
 	for (int i = 0; i < n; i++) {
