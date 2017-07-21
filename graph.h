@@ -16,9 +16,9 @@ struct DrawObject{
     vector<Point> point;
     float color[3]={0};
     bool colorFlag = false;
-    ~DrawObject(){
-        cout<<"1 ";
-    }
+//    ~DrawObject(){
+//        cout<<"1 ";
+//    }
 };
 vector<Point> drawCircle(float x, float y, float R, int n);
 void coverPoint2Opgl(Point* p, int n, float x, float y);
