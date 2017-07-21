@@ -62,8 +62,8 @@ void MainWindow::paintGL(vector<DrawObject> &vertices){
 }
 
 void MainWindow::rePaintYf(){
-    long time = clock();
-    if(time - refreshTime <(1000.0/60)){
+    QTime time = QTime::currentTime();
+    if(time.msecsSinceStartOfDay() - refreshTime.msecsSinceStartOfDay() <(1000.0/60)){
         return;
     }
     refreshTime = time;
