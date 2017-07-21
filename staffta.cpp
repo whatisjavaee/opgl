@@ -2,7 +2,7 @@
 #include "graph.h"
 #include <Math.h>
 #include <string.h>
-#include <GL/gl.h>
+#include <gl.h>
 
 Staffta::Staffta(Note* _notes, int _noteLenth,int _width,int _height) {
     notes.reserve(_noteLenth);

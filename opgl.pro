@@ -35,5 +35,3 @@ HEADERS += \
     graph.h
 
 FORMS +=
-
-LIBS += -lopengl32
