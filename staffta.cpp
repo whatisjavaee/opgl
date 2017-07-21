@@ -2,8 +2,12 @@
 #include "graph.h"
 #include <Math.h>
 #include <string.h>
+#ifdef Q_OS_WIN32
+#include <GL/gl.h>
+#endif
+#ifdef Q_OS_MAC
 #include <gl.h>
-
+#endif
 Staffta::Staffta(Note* _notes, int _noteLenth,int _width,int _height) {
     notes.reserve(_noteLenth);
     notes.assign(_notes,&_notes[_noteLenth]);
