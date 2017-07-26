@@ -91,10 +91,6 @@ void Staffta::initAllDrawObject(){
     allDrawObject.push_back(this->getFiveiLines());
 }
 
-vector<DrawObject>* Staffta::getAllDrawObject(){
-    return &allDrawObject;
-}
-
 void Staffta::resize(int _width,int _height){
     if(this->width == _width &&this->height == _height){
         return;
